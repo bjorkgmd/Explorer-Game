@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="9">
+ <tileset firstgid="1" source="Assets.tsx"/>
+ <layer id="1" name="Background" width="20" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,85,86,86,86,88,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,135,0,0,0,138,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,135,0,0,0,138,0,0,0,0,0,85,86,86,88,
+0,85,86,88,1,0,135,0,0,0,138,0,0,0,0,0,135,0,0,138,
+0,135,0,138,0,0,135,0,0,0,138,106,107,108,107,109,135,0,0,138,
+3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,5,135,0,0,138,
+77,29,29,29,29,29,29,29,29,29,29,29,29,29,29,81,135,0,0,138
+</data>
+ </layer>
+ <objectgroup id="2" name="Objects">
+  <object id="2" x="16" y="96">
+   <polygon points="0,0 48,0 48,16 0,16"/>
+  </object>
+  <object id="3" x="0" y="128">
+   <polygon points="0,0 0,32 256,32 256,0"/>
+  </object>
+  <object id="4" x="96" y="48">
+   <polygon points="0,0 0,16 80,16 80,0"/>
+  </object>
+  <object id="5" x="256" y="80">
+   <polygon points="0,0 64,0 64,16 0,16"/>
+  </object>
+  <object id="8" name="player" x="128" y="96" width="16" height="16"/>
+ </objectgroup>
+</map>
