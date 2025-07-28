@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import static com.mygdx.helper.Constants.PPM;
 
 /**
- * Creates the body for any object, I think?
+ * Creates the body for any object.
  * 
  * @author Micah B
  * @version 1.1
@@ -27,6 +27,7 @@ public class BodyHelperService {
         
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
+        fixtureDef.friction = 0;
         body.createFixture(fixtureDef);
         shape.dispose();
         return body;

@@ -15,7 +15,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.mygdx.game.GameScreen;
 import static com.mygdx.helper.Constants.PPM;
-import com.mygdx.objects.player.Player;
+import com.mygdx.objects.Player;
 
 /**
  * Processes the map information to be used in the game, I think?

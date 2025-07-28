@@ -1,10 +1,10 @@
-package com.mygdx.objects.player;
+package com.mygdx.objects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 
 /**
- * Abstraction of a object in the game, I think?
+ * Abstraction of a object in the game.
  * 
  * @author Micah B
  * @version 1.1

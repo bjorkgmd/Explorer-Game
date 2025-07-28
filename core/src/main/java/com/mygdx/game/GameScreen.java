@@ -13,7 +13,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import static com.mygdx.helper.Constants.PPM;
 import com.mygdx.helper.TileMapHelper;
-import com.mygdx.objects.player.Player;
+import com.mygdx.objects.Player;
 
 /**
  * Visual component of the game, I think?
@@ -90,7 +90,7 @@ public class GameScreen extends ScreenAdapter {
 
 
         batch.end();
-        Box2DDebugRenderer.render(world, camera.combined.scl(PPM));
+        // Box2DDebugRenderer.render(world, camera.combined.scl(PPM));
     }
 
     public World getWorld() {
