@@ -15,10 +15,11 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.mygdx.game.GameScreen;
 import static com.mygdx.helper.Constants.PPM;
+import com.mygdx.objects.LevelEnd;
 import com.mygdx.objects.Player;
 
 /**
- * Processes the map information to be used in the game, I think?
+ * Processes the map information to be used in the game.
  * 
  * @author Micah B
  * @version 1.1 
@@ -63,7 +64,20 @@ public class TileMapHelper {
                         rectangle.getY() + rectangle.getHeight() / 2,
                         rectangle.getWidth(), rectangle.getHeight(),
                         false, gameScreen.getWorld());
-                    gameScreen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body));
+                    Player player = new Player(rectangle.getWidth(), rectangle.getHeight(), body);
+                    player.initialize(); // Initialize the player after creation
+                    gameScreen.setPlayer(player);
+                }
+
+                if (rectangleName.equals("end")) {
+                    Body body = BodyHelperService.createBody(
+                        rectangle.getX() + rectangle.getWidth() / 2, 
+                        rectangle.getY() + rectangle.getHeight() / 2,
+                        rectangle.getWidth(), rectangle.getHeight(),
+                        false, gameScreen.getWorld());
+                    LevelEnd levelEnd = new LevelEnd(rectangle.getWidth(), rectangle.getHeight(), body);
+                    levelEnd.initialize(); // Initialize the level end after creation
+                    gameScreen.setLevelEnd(levelEnd);
                 }
             }
         }

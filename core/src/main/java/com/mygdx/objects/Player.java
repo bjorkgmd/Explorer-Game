@@ -29,64 +29,97 @@ public class Player extends GameEntity {
     Animation<TextureRegion> damageAnimation;
     Animation<TextureRegion> deathAnimation;
 
+    private boolean facingRight = true;
+
+    private boolean dashing = false;
+    private float dashTime = 0f;
+    private final float DASH_DURATION = 0.15f; // seconds
+
     /**
-     * 
+     * Constructor for the player object.
      */
     public Player(float width, float height, Body body) {
         super(width, height, body);
         this.speed = 10f;
         this.jumpCounter = 0;
 
-        Texture spriteSheet = new Texture("knight_sheet.png");
-        TextureRegion[] allFrames = TextureHelperService.extractFrames(spriteSheet, 16, 16, 14, 7, 2);
+        Texture spriteSheet = new Texture("character.png");
 
-        Animation<TextureRegion> idleAnimation = new Animation<>(0.1f, allFrames[0]);
-        Animation<TextureRegion> walkAnimation = new Animation<>(0.1f, allFrames[1]);
-        Animation<TextureRegion> jumpAnimation = new Animation<>(0.15f, allFrames[2]);
-        Animation<TextureRegion> fallAnimation = new Animation<>(0.15f, allFrames[3]);
-        Animation<TextureRegion> damageAnimation = new Animation<>(0.15f, allFrames[5]);
-        Animation<TextureRegion> deathAnimation = new Animation<>(0.15f, allFrames[6]);
+        this.idleAnimation = new Animation<>(0.5f,
+        TextureHelperService.extractFrames(spriteSheet, 16, 16, 2, 1, 8)); // row 0, 7 frames
+
+        this.walkAnimation = new Animation<>(0.25f,
+        TextureHelperService.extractFrames(spriteSheet, 16, 16, 4, 4, 8)); // row 1, 7 frames
+
+        this.damageAnimation = new Animation<>(0.5f,
+        TextureHelperService.extractFrames(spriteSheet, 16, 16, 2, 7, 8)); // row 5, 2 frames
+
+        this.deathAnimation = new Animation<>(0.5f,
+        TextureHelperService.extractFrames(spriteSheet, 16, 16, 3, 10, 8)); // row 6, 6 frames
     }
 
     /**
-     * 
+     * Initializes the player after construction.
+     * This should be called after the object is fully constructed.
+     */
+    public void initialize() {
+        if (this.body != null) {
+            this.body.setUserData(this); // Set the user data to this instance
+        }
+    }
+
+    /**
+     * Updates the player infromation based on inputs.
      */
     @Override
     public void update() {
         x = body.getPosition().x * PPM;
         y = body.getPosition().y * PPM;
 
+        // Dash timer update
+        if (dashing) {
+            dashTime += Gdx.graphics.getDeltaTime();
+            if (dashTime > DASH_DURATION) {
+                dashing = false;
+            }
+        }
+
         checkUserInput();
     }
 
     /**
-     * 
+     * Renders the player to the screen.
      */
     @Override
     public void render(SpriteBatch batch) {
         stateTime += Gdx.graphics.getDeltaTime();
-        // TextureRegion currentFrame = walkAnimation.getKeyFrame(stateTime, true);
-        // batch.draw(currentFrame, x, y, width, height); // scale if needed
 
         TextureRegion currentFrame = idleAnimation.getKeyFrame(stateTime, true);
-        if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            currentFrame = walkAnimation.getKeyFrame(stateTime, true);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+        if (Math.abs(velX) > 0) {
             currentFrame = walkAnimation.getKeyFrame(stateTime, true);
         }
 
-        batch.begin();
-        batch.draw(currentFrame, x, y);
-        batch.end();
+        // Flip only if needed
+        if ((facingRight && currentFrame.isFlipX()) || (!facingRight && !currentFrame.isFlipX())) {
+            currentFrame.flip(true, false);
+        }
+
+        batch.draw(currentFrame, x - width / 2f, y - height / 2f - 0.1f, width, height);
     }
 
     /**
-     * 
+     * Checks for user input and updates the player's velocity and state accordingly.
      */
     private void checkUserInput() {
         velX = 0;
-        if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) velX = 1;
-        if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) velX = -1;
+        if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            velX = 1;
+            facingRight = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            velX = -1;
+            facingRight = false;
+        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && jumpCounter < 2) {
             float force = body.getMass() * 18;
@@ -99,6 +132,19 @@ public class Player extends GameEntity {
             jumpCounter = 0;
         }
 
-        body.setLinearVelocity(velX * speed, body.getLinearVelocity().y < 25 ? body.getLinearVelocity().y : 25);
+        // DASH LOGIC
+        if (!dashing && Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT)) {
+            float force = body.getMass() * 18;
+            float dashDirection = facingRight ? 1 : -1;
+            body.setLinearVelocity(0, body.getLinearVelocity().y); // stop horizontal movement
+            body.applyLinearImpulse(new Vector2(force * dashDirection, 0), body.getPosition(), true);
+            dashing = true;
+            dashTime = 0f;
+        }
+
+        // Only set velocity from input if NOT dashing
+        if (!dashing) {
+            body.setLinearVelocity(velX * speed, body.getLinearVelocity().y < 25 ? body.getLinearVelocity().y : 25);
+        }
     }
 }

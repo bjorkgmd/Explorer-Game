@@ -15,8 +15,8 @@ public class TextureHelperService {
         TextureRegion[] frames = new TextureRegion[columns];
 
         for (int i = 0; i < columns; i++) {
-            int x = i * (frameWidth + spacing);
-            int y = row * (frameHeight + spacing);
+            int x = i * (frameWidth + 2 * spacing) + spacing;
+            int y = row * (frameHeight + 2 * spacing) + spacing;
             frames[i] = new TextureRegion(sheet, x, y, frameWidth, frameHeight);
         }
 

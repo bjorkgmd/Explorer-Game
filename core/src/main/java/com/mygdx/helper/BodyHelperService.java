@@ -23,8 +23,8 @@ public class BodyHelperService {
         Body body = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / 2 / PPM, height / 2 / PPM);
-        
+        shape.setAsBox(width / 2 / PPM - 0.1f, height / 2 / PPM - 0.1f);
+
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.friction = 0;
