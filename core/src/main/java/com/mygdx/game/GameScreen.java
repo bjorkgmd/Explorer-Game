@@ -10,13 +10,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import static com.mygdx.helper.Constants.PPM;
 import com.mygdx.helper.TileMapHelper;
 import com.mygdx.objects.LevelEnd;
+import com.mygdx.objects.LevelStart;
 import com.mygdx.objects.Player;
+import com.mygdx.objects.Spike;
 
 /**
  * Visual component of the game, I think?
@@ -35,7 +39,9 @@ public class GameScreen extends ScreenAdapter {
     private TileMapHelper tileMapHelper;
 
     private Player player;
+    private Spike spike;
     private LevelEnd levelEnd;
+    private LevelStart levelStart;
 
     private Texture background1Texture;
     private Texture background2Texture;
@@ -64,10 +70,15 @@ public class GameScreen extends ScreenAdapter {
                 Object a = contact.getFixtureA().getBody().getUserData();
                 Object b = contact.getFixtureB().getBody().getUserData();
 
+                if (a == null || b == null) return;
+
                 // Check for collision between player and levelEnd
                 if ((a == player && b == levelEnd) || (a == levelEnd && b == player)) {
-                    currentMapIndex++;
+                    // currentMapIndex++;
                     loadMap("maps/map" + currentMapIndex + ".tmx");
+                }
+                if ((a == player && b == spike) || (a == spike && b == player)) {
+                    player.setPosition(levelStart.getX(), levelStart.getY());
                 }
             }
             @Override public void endContact(com.badlogic.gdx.physics.box2d.Contact contact) {}
@@ -154,7 +165,24 @@ public class GameScreen extends ScreenAdapter {
         this.levelEnd = levelEnd;
     }
 
+    public void setLevelStart(LevelStart levelStart) {
+        this.levelStart = levelStart;
+    }
+
     private void loadMap(String string) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // 1. Dispose the current tiled map and renderer
+        // orthogonalTiledMapRenderer.getMap().dispose();
+        // orthogonalTiledMapRenderer.dispose();
+        this.tileMapHelper.dispose();
+
+        // // 2. Destroy all bodies in the world (don't dispose the world itself)
+        // Array<Body> bodies = new Array<Body>();
+        // world.getBodies(bodies);
+        // for (Body body : bodies) {
+        //     world.destroyBody(body);
+        // }
+
+        // // 3. Recreate map + renderer
+        // orthogonalTiledMapRenderer = tileMapHelper.setupMap(); // Use new map path as needed
     }
 }

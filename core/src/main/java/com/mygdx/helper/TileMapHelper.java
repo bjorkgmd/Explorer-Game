@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.mygdx.game.GameScreen;
 import static com.mygdx.helper.Constants.PPM;
 import com.mygdx.objects.LevelEnd;
+import com.mygdx.objects.LevelStart;
 import com.mygdx.objects.Player;
 
 /**
@@ -63,7 +64,7 @@ public class TileMapHelper {
                         rectangle.getX() + rectangle.getWidth() / 2, 
                         rectangle.getY() + rectangle.getHeight() / 2,
                         rectangle.getWidth(), rectangle.getHeight(),
-                        false, gameScreen.getWorld());
+                        false, gameScreen.getWorld(), true);
                     Player player = new Player(rectangle.getWidth(), rectangle.getHeight(), body);
                     player.initialize(); // Initialize the player after creation
                     gameScreen.setPlayer(player);
@@ -74,10 +75,21 @@ public class TileMapHelper {
                         rectangle.getX() + rectangle.getWidth() / 2, 
                         rectangle.getY() + rectangle.getHeight() / 2,
                         rectangle.getWidth(), rectangle.getHeight(),
-                        false, gameScreen.getWorld());
+                        true, gameScreen.getWorld(), false);
                     LevelEnd levelEnd = new LevelEnd(rectangle.getWidth(), rectangle.getHeight(), body);
                     levelEnd.initialize(); // Initialize the level end after creation
                     gameScreen.setLevelEnd(levelEnd);
+                }
+
+                if (rectangleName.equals("start")) {
+                    Body body = BodyHelperService.createBody(
+                        rectangle.getX() + rectangle.getWidth() / 2, 
+                        rectangle.getY() + rectangle.getHeight() / 2,
+                        rectangle.getWidth(), rectangle.getHeight(),
+                        true, gameScreen.getWorld(), false);
+                    LevelStart levelStart = new LevelStart(rectangle.getWidth(), rectangle.getHeight(), body);
+                    levelStart.initialize(); // Initialize the level start after creation
+                    gameScreen.setLevelStart(levelStart);
                 }
             }
         }
@@ -110,5 +122,11 @@ public class TileMapHelper {
         PolygonShape shape = new PolygonShape();
         shape.set(worldVertices);
         return shape;
+    }
+
+    public void dispose() {
+        if (tiledMap != null) {
+            tiledMap.dispose();
+        }
     }
 }

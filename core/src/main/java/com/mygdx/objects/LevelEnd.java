@@ -28,7 +28,8 @@ public class LevelEnd extends GameEntity {
      */
     public void initialize() {
         if (this.body != null) {
-            this.body.setUserData(this); // Set the user data to this instance
+            this.body.setUserData(this);
+            this.body.setActive(true);
         }
     }
 
@@ -37,12 +38,6 @@ public class LevelEnd extends GameEntity {
      */
     @Override
     public void update() {
-        // LevelEnd does not require any specific update logic.
-        // This method can be overridden if needed in the future.
-        // Currently, it serves as a placeholder to maintain consistency with other game entities.
-        if (body != null) {
-            body.setActive(true); // Ensure the body is active
-        }
     }
 
     /**

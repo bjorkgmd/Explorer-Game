@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="10">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="14">
  <tileset firstgid="1" source="Assets.tsx"/>
  <layer id="1" name="Background" width="20" height="10">
   <data encoding="csv">
@@ -15,7 +15,7 @@
 77,29,29,29,29,29,29,29,29,29,29,29,29,29,29,81,135,0,0,138
 </data>
  </layer>
- <objectgroup id="2" name="Objects" visible="0">
+ <objectgroup id="2" name="Objects">
   <object id="2" x="16" y="96">
    <polygon points="0,0 48,0 48,16 0,16"/>
   </object>
@@ -30,5 +30,6 @@
   </object>
   <object id="8" name="player" x="32" y="80" width="16" height="16"/>
   <object id="9" name="end" x="288" y="64" width="16" height="16"/>
+  <object id="12" name="start" x="32" y="80" width="16" height="16"/>
  </objectgroup>
 </map>
