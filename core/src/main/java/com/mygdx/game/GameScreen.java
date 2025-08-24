@@ -172,8 +172,12 @@ public class GameScreen extends ScreenAdapter {
     private void loadMap(String string) {
         // 1. Dispose the current tiled map and renderer
         // orthogonalTiledMapRenderer.getMap().dispose();
-        // orthogonalTiledMapRenderer.dispose();
-        this.tileMapHelper.dispose();
+        if (orthogonalTiledMapRenderer != null) {
+            orthogonalTiledMapRenderer.dispose();
+        }
+        if (tileMapHelper != null) {
+            tileMapHelper.dispose();
+        }
 
         // // 2. Destroy all bodies in the world (don't dispose the world itself)
         // Array<Body> bodies = new Array<Body>();
